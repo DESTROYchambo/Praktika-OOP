@@ -9,7 +9,7 @@
 
 ## Структура проекту
 ```
-├── img
+├── img.png
 ├── src
 |  └── praktika.java // Основний клас
 ├── README.md 
