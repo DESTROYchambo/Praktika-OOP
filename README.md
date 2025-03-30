@@ -20,4 +20,4 @@
 
 
 ## Скріншот виконання
-![](https://github.com/DESTROYchambo/Praktika-OOP/blob/9443061f272a1694bdd79837ad0c71a107ec76dc/img/zadanie4.png)
+![](https://github.com/DESTROYchambo/Praktika-OOP/blob/1a0aab1aec3cefef0d724a20f57900a43e2de72f/img/zadanie5.png)
