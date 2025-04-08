@@ -8,4 +8,11 @@
 
 
 ## Скріншоти виконання
-![](https://github.com/DESTROYchambo/Praktika-OOP/blob/ee9c3baba113495dd9693ef6e61ae2bb8cca2081/img/zadanie6.png)
+### Команда Випадкові параметри
+![](https://github.com/DESTROYchambo/Praktika-OOP/blob/bf25b5905bde13773cdde353c1cc8238c570deb8/img/gen%20(2).png)
+### Команда Зберегти
+![](https://github.com/DESTROYchambo/Praktika-OOP/blob/bf25b5905bde13773cdde353c1cc8238c570deb8/img/saved%20(2).png)
+### Команда Видалити
+![](https://github.com/DESTROYchambo/Praktika-OOP/blob/bf25b5905bde13773cdde353c1cc8238c570deb8/img/delete%20(2).png)
+### Команда Відновити
+![](https://github.com/DESTROYchambo/Praktika-OOP/blob/bf25b5905bde13773cdde353c1cc8238c570deb8/img/restore.png)
