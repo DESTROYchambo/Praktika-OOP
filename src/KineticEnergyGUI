@@ -1,0 +1,140 @@
+package ex7;
+
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.io.*;
+import java.util.Random;
+
+/**
+ * Графічна програма для розрахунку кінетичної енергії та її представлення в
+ * двійковому вигляді. Додаткові функції: генерація випадкових значень,
+ * збереження та відновлення даних, видалення останнього запису, вихід.
+ */
+public class KineticEnergyGUI extends JFrame {
+
+    private JTextField massField, velocityField;
+    private DefaultTableModel tableModel;
+
+    /**
+     * Головний метод. Створює екземпляр програми.
+     */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(KineticEnergyGUI::new);
+    }
+
+    /**
+     * Конструктор. Створює графічний інтерфейс.
+     */
+    public KineticEnergyGUI() {
+        setTitle("Кінетична енергія");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1000, 400);
+        setLocationRelativeTo(null);
+
+        // Поля введення маси та швидкості
+        massField = new JTextField(5);
+        velocityField = new JTextField(5);
+
+        JButton calcButton = new JButton("Обчислити");
+        JButton randomButton = new JButton("Випадкові параметри");
+        JButton saveButton = new JButton("Зберегти");
+        JButton loadButton = new JButton("Відновити");
+        JButton deleteButton = new JButton("Видалити останній");
+
+        // Таблиця для результатів
+        tableModel = new DefaultTableModel(new Object[]{"Маса", "Швидкість", "Кінетична енергія", "Двійкове уявлення"}, 0);
+        JTable resultTable = new JTable(tableModel);
+
+        // Панель керування
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Маса:"));
+        panel.add(massField);
+        panel.add(new JLabel("Швидкість:"));
+        panel.add(velocityField);
+        panel.add(calcButton);
+        panel.add(randomButton);
+        panel.add(saveButton);
+        panel.add(loadButton);
+        panel.add(deleteButton);
+
+        add(panel, BorderLayout.NORTH);
+        add(new JScrollPane(resultTable), BorderLayout.CENTER);
+
+        // Обробники подій
+        calcButton.addActionListener(e -> calculate());
+        randomButton.addActionListener(e -> generateRandom());
+        saveButton.addActionListener(e -> saveToFile());
+        loadButton.addActionListener(e -> loadFromFile());
+        deleteButton.addActionListener(e -> deleteLast());
+
+        setVisible(true);
+    }
+
+    /**
+     * Обчислює кінетичну енергію і додає результат до таблиці.
+     */
+    private void calculate() {
+        try {
+            double mass = Double.parseDouble(massField.getText());
+            double velocity = Double.parseDouble(velocityField.getText());
+            int energy = (int) (0.5 * mass * velocity * velocity);
+            String binary = Integer.toBinaryString(energy);
+            tableModel.addRow(new Object[]{mass, velocity, energy, binary});
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "WRITE CORRECT NUMBERS", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Генерує випадкові значення маси та швидкості.
+     */
+    private void generateRandom() {
+        Random rand = new Random();
+        massField.setText(String.valueOf(1 + rand.nextInt(100)));
+        velocityField.setText(String.valueOf(1 + rand.nextInt(100)));
+    }
+
+    /**
+     * Зберігає всі результати з таблиці у файл.
+     */
+    private void saveToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("results.txt"))) {
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                writer.println(tableModel.getValueAt(i, 0) + ","
+                        + tableModel.getValueAt(i, 1) + ","
+                        + tableModel.getValueAt(i, 2) + ","
+                        + tableModel.getValueAt(i, 3));
+            }
+            JOptionPane.showMessageDialog(this, "SAVED");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "SAVEerror", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Завантажує результати з файлу у таблицю.
+     */
+    private void loadFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("results.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                tableModel.addRow(line.split(","));
+            }
+            JOptionPane.showMessageDialog(this, "RESTORED");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "RESTOREerror", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Видаляє останній рядок з таблиці.
+     */
+    private void deleteLast() {
+        int lastRow = tableModel.getRowCount() - 1;
+        if (lastRow >= 0) {
+            tableModel.removeRow(lastRow);
+        }
+    }
+}
